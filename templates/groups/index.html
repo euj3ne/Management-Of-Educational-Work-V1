@@ -1,0 +1,121 @@
+  {% load static %}
+  {% include 'include/header.html' %}
+  {% include 'include/navbar.html' %}
+
+
+
+
+<body>
+  <div class="container">
+    <div class="px-5 my-5 text-center">
+      <h1>Список групп</h1>
+      <br>
+
+<select class="form-select" id="selectList" aria-label="">
+  <option data-id="{% url 'panel:index' %}">Главная</option>
+  <option data-id="{% url 'panel:teachers_index' %}">Учителя</option>
+  <option selected>Группы</option>
+  <option data-id="{% url 'panel:works_index' %}">Работы</option>
+  <option data-id="{% url 'panel:students_index' %}">Студенты</option>
+</select>
+
+<script>
+  // Ждем, пока документ полностью загрузится
+  document.addEventListener("DOMContentLoaded", function() {
+    // Получаем ссылку на элемент <select>
+    var selectList = document.getElementById('selectList');
+
+    // Обрабатываем изменение значения в <select>
+    selectList.addEventListener('change', function() {
+      // Получаем выбранный элемент
+      var selectedOption = selectList.options[selectList.selectedIndex];
+
+      // Проверяем, есть ли у элемента атрибут data-id
+      if (selectedOption.dataset.id) {
+        // Получаем значение атрибута data-id и переходим по указанному URL
+        var url = selectedOption.dataset.id;
+        window.location.href = url;
+      }
+    });
+  });
+</script>
+
+
+
+    </div>
+    <button hx-get="{% url 'panel:groups_add' %}" hx-target="#dialog" class="btn btn-primary">Добавить</button>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Номер группы</th>
+          <th>Кол-во студентов</th>
+          <th>Дата зачисления</th>
+          <th>Дата окончания</th>
+          <th>Классный руководитель</th>
+        </tr>
+      </thead>
+
+      <tbody hx-trigger="load, groupsListChanged from:body" hx-get="{% url 'panel:groups_list' %}" hx-target="this">
+        <tr>
+          <td class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <div id="modal" class="modal fade">
+    <div id="dialog" class="modal-dialog" hx-target="this"></div>
+  </div>
+
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="toast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="d-flex">
+        <div id="toast-body" class="toast-body"></div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+          aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    ; (function () {
+      const modal = new bootstrap.Modal(document.getElementById("modal"))
+
+      htmx.on("htmx:afterSwap", (e) => {
+        if (e.detail.target.id == "dialog") {
+          modal.show()
+        }
+      })
+
+      htmx.on("htmx:beforeSwap", (e) => {
+        if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+          modal.hide()
+          e.detail.shouldSwap = false
+        }
+      })
+
+      htmx.on("hidden.bs.modal", () => {
+        document.getElementById("dialog").innerHTML = ""
+      })
+    })()
+  </script>
+  <script>
+      ; (function () {
+        const toastElement = document.getElementById("toast")
+        const toastBody = document.getElementById("toast-body")
+        const toast = new bootstrap.Toast(toastElement, { delay: 2000 })
+
+        htmx.on("showMessage", (e) => {
+          toastBody.innerText = e.detail.value
+          toast.show()
+        })
+      })()
+  </script>
+</body>
+
+</html>

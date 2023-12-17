@@ -1,0 +1,19 @@
+{% for students in students %}
+<tr id="students-{{ students.pk }}" class="students-row">
+  <td>{{ students.surname }}</td>
+  <td>{{ students.name }}</td>
+  <td>{{ students.middle_name }}</td>
+  <td>{{ students.birthday }}</td>
+  <td>{{ students.get_sex_display }}</td>
+  <td>{{ students.address }}</td>
+  <td>{{ students.telephone_number }}</td>
+  <td>{{ students.email }}</td>
+  <td>{{ students.get_number_group_display }}</td>
+  <td>{{ students.date_join }}</td>
+  <td>{{ students.date_leave }}</td>
+  <td>
+    <button class="btn btn-primary btn-sm" hx-get="{% url 'panel:students_edit' pk=students.pk %}" hx-target="#dialog"> <i class="fa-solid fa-pen-to-square"></i></button>
+    <button class="btn btn-light btn-sm" hx-get="{% url 'panel:students_remove_confirmation' pk=students.pk %}" hx-target="#dialog"> <i class="fa-solid fa-trash"></i> </button>
+  </td>
+</tr>
+{% endfor %}

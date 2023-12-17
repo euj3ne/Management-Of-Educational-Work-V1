@@ -1,0 +1,14 @@
+{% for works in works %}
+<tr id="works-{{ works.pk }}" class="works-row">
+  <td>{{ works.number_work }}</td>
+  <td>{{ works.date_1 }}</td>
+  <td>{{ works.get_number_group_display }}</td>
+  <td>{{ works.number_1_students }}</td>
+  <td>{{ works.number_1_students }}</td>
+  <td>{{ works.description_work }}</td>
+  <td>
+    <button class="btn btn-primary btn-sm" hx-get="{% url 'panel:works_edit' pk=works.pk %}" hx-target="#dialog"> <i class="fa-solid fa-pen-to-square"></i></button>
+    <button class="btn btn-light btn-sm" hx-get="{% url 'panel:works_remove_confirmation' pk=works.pk %}" hx-target="#dialog"> <i class="fa-solid fa-trash"></i> </button>
+  </td>
+</tr>
+{% endfor %}

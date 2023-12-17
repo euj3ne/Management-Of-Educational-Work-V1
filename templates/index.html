@@ -1,0 +1,34 @@
+{% load static %}
+{% include 'include/header.html' %}
+{% include 'include/navbar.html' %}
+
+
+<body>
+  <div class="container">
+    <div class="px-5 my-5 text-center">
+      <h1>Выберите страницу данных из списка ниже</h1>
+    </div>
+
+<select class="form-select" id="selectList" aria-label="">
+  <option selected>Выберите список данных</option>
+  <option data-id="{% url 'panel:teachers_index' %}">Учителя</option>
+  <option data-id="{% url 'panel:groups_index' %}">Группы</option>
+  <option data-id="{% url 'panel:works_index' %}">Работы</option>
+  <option data-id="{% url 'panel:students_index' %}">Студенты</option>
+</select>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var selectList = document.getElementById('selectList');
+    selectList.addEventListener('change', function() {
+      var selectedOption = selectList.options[selectList.selectedIndex];
+      if (selectedOption.dataset.id) {
+        var url = selectedOption.dataset.id;
+        window.location.href = url;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
