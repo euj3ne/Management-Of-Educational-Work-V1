@@ -2,22 +2,20 @@ from django.db import models
 
 
 class Teachers(models.Model):
-    MALE = 1
-    FEMALE = 2
     SEX_TYPES = (
-        (MALE, 'Мужчина'),
-        (FEMALE, 'Женщина')
+        ('MALE', 'Мужчина'),
+        ('FEMALE', 'Женщина')
     )
 
     surname = models.CharField(max_length=1000, blank=True, null=True)
     name = models.CharField(max_length=1000, blank=True, null=True)
     middle_name = models.CharField(max_length=1000, blank=True, null=True)
-    birthday = models.DateField()
-    sex = models.IntegerField(choices=SEX_TYPES, default=FEMALE, blank=True, null=True)
+    birthday = models.DateField(blank=True, null=True)
+    sex = models.CharField(choices=SEX_TYPES, max_length=10, blank=True, null=True)
     address = models.CharField(max_length=1000, blank=True, null=True)
     telephone_number = models.CharField(max_length=1000, blank=True, null=True)
     job_post = models.CharField(max_length=1000, blank=True, null=True)
-    date_job = models.DateField()
+    date_job = models.DateField(blank=True, null=True)
     subject = models.CharField(max_length=1000, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
 
@@ -31,13 +29,13 @@ class Teachers(models.Model):
 
 
 class Groups(models.Model):
-    number_group = models.IntegerField(blank=True, default=1, null=True)
+    number_group = models.CharField(blank=True, max_length=100, default=1, null=True)
     number_1_students = models.IntegerField(blank=True, default=1, null=True)
     date_1_creation = models.DateField(blank=True, null=True)
     date_2_creation = models.DateField(blank=True, null=True)
 
-    TEACHER_CHOICES = [(teachers.id, f"{teachers.surname} {teachers.name} {teachers.middle_name}") for teachers in Teachers.objects.all()]
-    data_teacher = models.CharField(choices=TEACHER_CHOICES, max_length=1000, blank=True, null=False)
+    TEACHER_CHOICES = [(str(teachers.id), f"{teachers.surname} {teachers.name} {teachers.middle_name}") for teachers in Teachers.objects.all()]
+    data_teacher = models.CharField(choices=TEACHER_CHOICES, max_length=100, blank=True, null=True)
 
     class Meta:
         db_table = 'groups'
@@ -51,10 +49,12 @@ class Groups(models.Model):
 class Works(models.Model):
     number_work = models.IntegerField(blank=True, default=1, null=True)
     date_1 = models.DateField(blank=True, null=True)
-    number_groupn = models.IntegerField(blank=True, default=1, null=True)
     number_1_students = models.IntegerField(blank=True, default=1, null=True)
     number_2_students = models.IntegerField(blank=True, default=1, null=True)
     description_work = models.CharField(max_length=1000, blank=True, null=True)
+
+    GROUP_CHOICES = [(str(group.id), group.number_group) for group in Groups.objects.all()]
+    number_group = models.CharField(choices=GROUP_CHOICES, max_length=100, blank=True, null=True)
 
     class Meta:
         db_table = 'works'
@@ -65,26 +65,24 @@ class Works(models.Model):
         return f"{self.number_work}"
 
 class Students(models.Model):
-    MALE = 1
-    FEMALE = 2
     SEX_TYPES = (
-        (MALE, 'Мужчина'),
-        (FEMALE, 'Женщина')
+        ('MALE', 'Мужчина'),
+        ('FEMALE', 'Женщина')
     )
 
     surname = models.CharField(max_length=1000, blank=True, null=True)
     name = models.CharField(max_length=1000, blank=True, null=True)
     middle_name = models.CharField(max_length=1000, blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
-    sex = models.IntegerField(choices=SEX_TYPES, default=FEMALE, blank=True, null=True)
+    sex = models.CharField(choices=SEX_TYPES, max_length=10, blank=True, null=True)
     address = models.CharField(max_length=1000, blank=True, null=True)
     telephone_number = models.CharField(max_length=1000, blank=True, null=True)
     date_join = models.DateField(blank=True, null=True)
     date_leave = models.DateField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
 
-    GROUP_CHOICES = [(group.id, group.number_group) for group in Groups.objects.all()]
-    number_group = models.CharField(choices=GROUP_CHOICES, max_length=1000, blank=True, null=False)
+    GROUP_CHOICES = [(str(group.id), group.number_group) for group in Groups.objects.all()]
+    number_group = models.CharField(choices=GROUP_CHOICES, max_length=100, blank=True, null=True)
 
     class Meta:
         db_table = 'students'

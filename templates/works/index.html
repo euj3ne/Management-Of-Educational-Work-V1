@@ -20,19 +20,11 @@
 </select>
 
 <script>
-  // Ждем, пока документ полностью загрузится
   document.addEventListener("DOMContentLoaded", function() {
-    // Получаем ссылку на элемент <select>
     var selectList = document.getElementById('selectList');
-
-    // Обрабатываем изменение значения в <select>
     selectList.addEventListener('change', function() {
-      // Получаем выбранный элемент
       var selectedOption = selectList.options[selectList.selectedIndex];
-
-      // Проверяем, есть ли у элемента атрибут data-id
       if (selectedOption.dataset.id) {
-        // Получаем значение атрибута data-id и переходим по указанному URL
         var url = selectedOption.dataset.id;
         window.location.href = url;
       }

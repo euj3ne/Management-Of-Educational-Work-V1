@@ -202,7 +202,7 @@ def works_add(request):
                 number_1_students = form.cleaned_data.get('number_1_students'),
                 number_2_students = form.cleaned_data.get('number_2_students'),
                 description_work = form.cleaned_data.get('description_work'),
-                number_groupn = form.cleaned_data.get('number_groupn'),
+                number_group = form.cleaned_data.get('number_group'),
             )
             return HttpResponse(
                 status=204,

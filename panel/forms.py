@@ -39,7 +39,7 @@ class WorksForm(forms.ModelForm):
         widgets = {
             'number_work': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '1'}),
             'date_1': forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'placeholder': '01.01.1901'}),
-            'number_groupn': forms.Select(attrs={'class': 'form-control', 'placeholder': '44СПО'}),
+            'number_group': forms.Select(attrs={'class': 'form-control', 'placeholder': '44СПО'}),
             'number_1_students': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '20'}),
             'number_2_students': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '5'}),
             'description_work': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Культура мира'}),

@@ -4,7 +4,7 @@
   <td>{{ groups.number_1_students }}</td>
   <td>{{ groups.date_1_creation }}</td>
   <td>{{ groups.date_2_creation }}</td>
-  <td>{{ groups.data_teacher }}</td>
+  <td>{{ groups.get_data_teacher_display }}</td>
   <td>
     <button class="btn btn-primary btn-sm" hx-get="{% url 'panel:groups_edit' pk=groups.pk %}" hx-target="#dialog"> <i class="fa-solid fa-pen-to-square"></i></button>
     <button class="btn btn-light btn-sm" hx-get="{% url 'panel:groups_remove_confirmation' pk=groups.pk %}" hx-target="#dialog"> <i class="fa-solid fa-trash"></i> </button>
